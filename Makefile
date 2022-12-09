@@ -13,6 +13,20 @@ all: ./bin/STACKI.so ./bin/STACKN.so ./bin/STACKP.so ./bin/STACKT.so ./testing/b
 
 .PHONY: all test1 test2
 
+init:
+	if [ ! -d lst ]; then \
+		mkdir lst; \
+	fi
+	if [ ! -d bin ]; then \
+		mkdir bin; \
+	fi
+	if [ ! -d testing/lst ]; then \
+		mkdir testing/lst; \
+	fi
+	if [ ! -d testing/bin ]; then \
+		mkdir testing/bin; \
+	fi
+
 test1:
 	echo `date` $@ >>build.log
 	cd bin; \
