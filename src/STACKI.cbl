@@ -20,30 +20,24 @@
        Data Division.
        Working-Storage Section.
        01  constants.
-           05  myname                   PIC X(008) Value 'STACKI'.
+           *>  Eyecatcher.
+           05  myname                   PIC X(008)  Value 'STACKI'.
+           *>  The stack grows downward in increments of 
+           *>  stack-item-len * stack-items-increment.  The number
+           *>  10 is arbitrary.
            05  stack-items-increment    PIC 9(009)  Binary Value 10.
+           *>  Return code indicating success.
            05  rc-success               PIC S9(004) Binary Value +0.
-           05  rc-stack-empty           PIC S9(004) Binary Value +4.
-           05  rc-bad-func              PIC S9(004) Binary Value +8.
            
        Linkage Section.
+       *>  Output.  Pointer to the anchor block for the stack.
        01  ab-ptr                       Pointer.
        
+       *>  Input.  Length of the items to be placed on the stack.
        01  item-len                     PIC 9(009) Binary.
        
-       01  ab.
-           05  stack-item-len           PIC 9(009) Binary.
-           05  stack-items-len          PIC 9(009) Binary.
-           05  stack-curr-nb-items      PIC 9(009) Binary.
-           05  stack-items-capacity     PIC 9(009) Binary.
-           05  stack-items-position     PIC 9(009) Binary.
-           05  stack-items-ptr          Pointer.
-           
-       01  stack-items.
-           05  Occurs 1 To Unbounded 
-               Depending stack-items-len
-               PIC X(001).
-               
+       Copy 'STACKAB.cpy'.
+                  
        Procedure Division Using
              ab-ptr
              item-len

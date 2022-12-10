@@ -16,24 +16,19 @@
        Data Division.
        Working-Storage Section.
        01  constants.
+           *>  Eyecatcher.
            05  myname                   PIC X(008) Value 'STACKN'.
-           05  stack-items-increment    PIC 9(009)  Binary Value 10.
+           *>  Return code indicating success.
            05  rc-success               PIC S9(004) Binary Value +0.
-           05  rc-stack-empty           PIC S9(004) Binary Value +4.
-           05  rc-bad-func              PIC S9(004) Binary Value +8.
            
        Linkage Section.
+       *>  Input.  Pointer to the anchor block for the stack.
        01  ab-ptr                       Pointer.
        
+       *>  Output.  Number of items currently on the stack.
        01  nb-items                     PIC 9(009) Binary.
        
-       01  ab.
-           05  stack-item-len           PIC 9(009) Binary.
-           05  stack-items-len          PIC 9(009) Binary.
-           05  stack-curr-nb-items      PIC 9(009) Binary.
-           05  stack-items-capacity     PIC 9(009) Binary.
-           05  stack-items-position     PIC 9(009) Binary.
-           05  stack-items-ptr          Pointer.
+       Copy 'STACKAB.cpy'.
            
        Procedure Division Using
              ab-ptr
@@ -41,8 +36,16 @@
            .
            
            Set Address Of ab To ab-ptr
+
+           *> This may seem like a long way to go just to execute
+           *> a Move statement, but it keeps the contents of the
+           *> anchor block private.
            Move stack-curr-nb-items to nb-items
 
+           *> Note that rc-success is returned even if the stack is
+           *> empty.  It seems more logical to indicate success than
+           *> to return 0 in the nb-items and also a return code
+           *> indicating the stack is empty.
            Move rc-success To Return-Code
            Goback.
            
