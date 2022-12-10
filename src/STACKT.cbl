@@ -19,34 +19,32 @@
        Data Division.
        Working-Storage Section.
        01  constants.
+           *>  Eyecatcher.
            05  myname                   PIC X(008) Value 'STACKT'.
-           05  stack-items-increment    PIC 9(009)  Binary Value 10.
+           *>  Return code indicating success.
            05  rc-success               PIC S9(004) Binary Value +0.
-           05  rc-stack-empty           PIC S9(004) Binary Value +4.
-           05  rc-bad-func              PIC S9(004) Binary Value +8.
-           
-       01  work-areas.
-           05  new-stack-items-ptr      Pointer            Value NULL.
-           05  new-stack-items-len      PIC 9(009) Binary  Value 0.
-           05  new-stack-items-capacity PIC 9(009) Binary  Value 0.
            
        Linkage Section.
+       *>  Input and Output.  
        01  ab-ptr                       Pointer.
        
-       01  ab.
-           05  stack-item-len           PIC 9(009) Binary.
-           05  stack-items-len          PIC 9(009) Binary.
-           05  stack-curr-nb-items      PIC 9(009) Binary.
-           05  stack-items-capacity     PIC 9(009) Binary.
-           05  stack-items-position     PIC 9(009) Binary.
-           05  stack-items-ptr          Pointer.
+       Copy 'STACKAB.cpy'.
            
+       *>  The contents of the stack, in its entirety.
+       01  stack-items.
+           05  Occurs 1 To Unbounded 
+               Depending stack-items-len
+               PIC X(001).
+               
        Procedure Division Using
              ab-ptr
            .
            
            Set Address Of ab To ab-ptr
+           Set Address of stack-items To stack-items-ptr
+           Move Low-Values to stack-items
            Free stack-items-ptr
+           Move Low-Values To ab
            Free ab-ptr
            
            Set ab-ptr To NULL

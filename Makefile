@@ -5,9 +5,9 @@ CFLAGS=-Wall -Wpossible-overlap -Wimplicit-define -Wcolumn-overflow -Wpossible-t
 	echo `date` $< >>build.log
 	cobc $(CFLAGS) -t ./testing/lst/$(@F).lst -x -o $@ ./testing/src/$(@F).cbl
 
-./bin/%.so: ./src/%.cbl
+./bin/%.so: ./src/%.cbl ./src/STACKAB.cpy
 	echo `date` $< >>build.log
-	cobc $(CFLAGS) -t ./lst/$(*F).lst -o $@ $<
+	cobc $(CFLAGS) -t ./lst/$(*F).lst -I ./src -o $@ $<
 
 all: ./bin/STACKI.so ./bin/STACKN.so ./bin/STACKP.so ./bin/STACKT.so ./testing/bin/test0001 ./testing/bin/test0002 ./testing/bin/test0003
 
